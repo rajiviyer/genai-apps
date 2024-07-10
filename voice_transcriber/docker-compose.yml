@@ -1,0 +1,55 @@
+services:
+  frontend:
+    container_name: voice-trans-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    expose:
+      - 3000
+    depends_on:
+      - backend
+    networks:
+      - voice-trans-network
+
+  backend:
+    container_name: voice-trans-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8901:8901"
+    environment:
+      - UVICORN_WORKERS=1      
+    expose:
+      - 8901
+    networks:
+      - voice-trans-network
+
+  nginx:
+    container_name: voice-trans-nginx
+    image: nginx:latest
+    ports:
+      - "443:443"
+      - "80:80"
+      - "9443:9443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/fullchain.pem:/etc/ssl/certs/fullchain.pem
+      - ./nginx/privkey.pem:/etc/ssl/private/privkey.pem
+      - ./nginx/fastapi_fullchain.pem:/etc/ssl/certs/fastapi_fullchain.pem
+      - ./nginx/fastapi_privkey.pem:/etc/ssl/private/fastapi_privkey.pem
+    depends_on:
+      - frontend
+      - backend  
+    networks:
+      - voice-trans-network       
+
+networks:
+  voice-trans-network:
+    name: voice-trans-network
+
