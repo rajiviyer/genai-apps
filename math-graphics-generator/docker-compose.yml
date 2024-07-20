@@ -1,0 +1,32 @@
+services:
+  frontend:
+    container_name: math-image-gen-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+    expose:
+      - 3001
+    depends_on:
+      - backend
+    networks:
+      - math-image-gen-network
+  backend:
+    container_name: math-image-gen-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8902:8902"
+    expose:
+      - 8902
+    networks:
+      - math-image-gen-network
+
+networks:
+  math-image-gen-network:
+    name: math-image-gen-network

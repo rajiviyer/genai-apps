@@ -1,0 +1,5 @@
+export {default as Home} from "./Home"
+export {default as Landing} from "./Landing"
+export {default as Animation} from "./Animation"
+export {default as Error} from "./Error"
+export {default as About} from "./About"
