@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Loading from './Loading';
 
-const OptionForm = ({ setVideo }) => {
+const OptionFormOld = ({ setVideo }) => {
   const [option, setOption] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -33,4 +33,4 @@ const OptionForm = ({ setVideo }) => {
   );
 };
 
-export default OptionForm;
+export default OptionFormOld;
